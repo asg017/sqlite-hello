@@ -25,10 +25,20 @@ prefix=dist
 $(prefix):
 	mkdir -p $(prefix)
 
-TARGET_LOADABLE=$(prefix)/hello0.$(LOADABLE_EXTENSION)
+TARGET_LOADABLE_HELLO=$(prefix)/hello0.$(LOADABLE_EXTENSION)
+TARGET_LOADABLE_HOLA=$(prefix)/hola0.$(LOADABLE_EXTENSION)
+TARGET_LOADABLE=$(TARGET_LOADABLE_HELLO) $(TARGET_LOADABLE_HOLA)
 loadable: $(TARGET_LOADABLE)
 
-$(TARGET_LOADABLE): hello.c $(prefix)
+$(TARGET_LOADABLE_HELLO): hello.c $(prefix)
+	gcc -fPIC -shared \
+	-Ivendor \
+	-O3 \
+	-DSQLITE_HELLO_VERSION="\"v$(VERSION)\"" \
+	$(CFLAGS) \
+	$< -o $@
+
+$(TARGET_LOADABLE_HOLA): hola.c $(prefix)
 	gcc -fPIC -shared \
 	-Ivendor \
 	-O3 \
@@ -37,7 +47,7 @@ $(TARGET_LOADABLE): hello.c $(prefix)
 	$< -o $@
 
 clean:
-	rm dist/*
+	rm -rf dist/*
 
 test:
 	sqlite3 :memory: '.read test.sql'

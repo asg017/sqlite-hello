@@ -39,6 +39,12 @@ jobs:
           name: ${{ env.project }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           platforms: |
-            macos-x86_64: ${{ env.project }}-macos-x86_64/hello0.dylib
-            linux-x86_64: ${{ env.project }}-linux-x86_64/hello0.so
-            windows-x86_64: ${{ env.project }}-windows-x86_64/hello0.dll
+            macos-x86_64: 
+              - ${{ env.project }}-macos-x86_64/hello0.dylib
+              - ${{ env.project }}-macos-x86_64/hola0.dylib
+            linux-x86_64: 
+              - ${{ env.project }}-linux-x86_64/hello0.so
+              - ${{ env.project }}-linux-x86_64/hola0.so
+            windows-x86_64: 
+              - ${{ env.project }}-windows-x86_64/hello0.dll
+              - ${{ env.project }}-windows-x86_64/hola0.dll
