@@ -4,30 +4,51 @@ on:
     types: [published]
 permissions:
   contents: read
-env:
-  project: sqlite-hello
 jobs:
-  build:
-    strategy:
-      matrix:
-        targets:
-          - platform: linux-x86_64
-            os: ubuntu-20.04
-          - platform: windows-x86_64
-            os: windows-2019
-          - platform: macos-x86_64
-            os: macos-11
-    name: ${{ matrix.targets.platform }} build
-    runs-on: ${{ matrix.targets.os }}
+  build-linux-x86_64-extension:
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
       - run: make loadable
       - uses: actions/upload-artifact@v3
         with:
-          name: ${{ env.project }}-${{ matrix.targets.platform }}
+          name: sqlite-hello-linux-x86_64-extension
+          path: dist/*
+  build-macos-x86_64-extension:
+    runs-on: macos-11
+    steps:
+      - uses: actions/checkout@v3
+      - run: make loadable
+      - uses: actions/upload-artifact@v3
+        with:
+          name: sqlite-hello-macos-x86_64-extension
+          path: dist/*
+  build-macos-aarch64-extension:
+    runs-on: macos-11
+    steps:
+      - uses: actions/checkout@v3
+      - run: make loadable CFLAGS="-target arm64-apple-macos11"
+      - uses: actions/upload-artifact@v3
+        with:
+          name: sqlite-hello-macos-aarch64-extension
+          path: dist/*
+  build-windows-x86_64-extension:
+    runs-on: windows-2019
+    steps:
+      - uses: actions/checkout@v3
+      - run: make loadable
+      - uses: actions/upload-artifact@v3
+        with:
+          name: sqlite-hello-windows-x86_64-extension
           path: dist/*
   upload-extensions:
-    needs: [build]
+    needs:
+      [
+        build-linux-x86_64-extension,
+        build-macos-x86_64-extension,
+        build-macos-aarch64-extension,
+        build-windows-x86_64-extension,
+      ]
     permissions:
       contents: write
     runs-on: ubuntu-latest
@@ -36,15 +57,15 @@ jobs:
       - uses: actions/download-artifact@v2
       - uses: asg017/upload-spm@main
         with:
-          name: ${{ env.project }}
+          name: sqlite-hello
           github-token: ${{ secrets.GITHUB_TOKEN }}
           platforms: |
             macos-x86_64: 
-              - ${{ env.project }}-macos-x86_64/hello0.dylib
-              - ${{ env.project }}-macos-x86_64/hola0.dylib
+              - sqlite-hello-macos-x86_64/hello0.dylib
+              - sqlite-hello-macos-x86_64/hola0.dylib
             linux-x86_64: 
-              - ${{ env.project }}-linux-x86_64/hello0.so
-              - ${{ env.project }}-linux-x86_64/hola0.so
+              - sqlite-hello-linux-x86_64/hello0.so
+              - sqlite-hello-linux-x86_64/hola0.so
             windows-x86_64: 
-              - ${{ env.project }}-windows-x86_64/hello0.dll
-              - ${{ env.project }}-windows-x86_64/hola0.dll
+              - sqlite-hello-windows-x86_64/hello0.dll
+              - sqlite-hello-windows-x86_64/hola0.dll
