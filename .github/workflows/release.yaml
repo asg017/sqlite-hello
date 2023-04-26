@@ -1,0 +1,45 @@
+name: "Release"
+on:
+  release:
+    types: [published]
+permissions:
+  contents: read
+env:
+  project: sqlite-hello
+jobs:
+  build:
+    strategy:
+      matrix:
+        targets:
+          - platform: linux-x86_64
+            os: ubuntu-20.04
+          - platform: windows-x86_64
+            os: windows-2019
+          - platform: macos-x86_64
+            os: macos-11
+    name: ${{ matrix.targets.platform }} build
+    runs-on: ${{ matrix.targets.os }}
+    steps:
+      - uses: actions/checkout@v3
+      - run: make loadable
+      - uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.project }}-${{ matrix.targets.platform }}
+          path: dist/*
+  upload-extensions:
+    name: Upload release assets
+    needs: [build]
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+      - uses: asg017/upload-spm@main
+        with:
+          name: ${{ env.project }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          platforms: |
+            macos-x86_64: ${{ env.project }}-macos-x86_64/hello.dylib
+            linux-x86_64: ${{ env.project }}-linux-x86_64/hello.so
+            windows-x86_64: ${{ env.project }}-windows-x86_64/hello.dll
