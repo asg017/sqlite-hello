@@ -34,7 +34,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/download-artifact@v2
-      - uses: asg017/upload-spm@7c4e7bffbab561e85ca52225e301093319462b62
+      - uses: asg017/upload-spm@main
         with:
           name: ${{ env.project }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
