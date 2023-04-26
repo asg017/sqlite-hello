@@ -13,7 +13,7 @@ jobs:
       matrix:
         targets:
           - platform: linux-x86_64
-            os: ubuntu-18.04
+            os: ubuntu-20.04
           - platform: windows-x86_64
             os: windows-2019
           - platform: macos-x86_64

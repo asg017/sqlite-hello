@@ -1,3 +1,4 @@
+VERSION=$(shell cat VERSION)
 
 ifeq ($(shell uname -s),Darwin)
 CONFIG_DARWIN=y
@@ -28,7 +29,11 @@ TARGET_LOADABLE=$(prefix)/hello0.$(LOADABLE_EXTENSION)
 loadable: $(TARGET_LOADABLE)
 
 $(TARGET_LOADABLE): hello.c $(prefix)
-	gcc -fPIC -shared -O3 $< -o $@
+	gcc -fPIC -shared \
+	-Ivendor \
+	-O3 \
+	-DSQLITE_HELLO_VERSION="\"v$(VERSION)\"" \
+	$< -o $@
 
 clean:
 	rm dist/*

@@ -3,3 +3,4 @@
 .header on
 
 select hello('Alex');
+select hello_version();
