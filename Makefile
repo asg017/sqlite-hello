@@ -33,6 +33,7 @@ $(TARGET_LOADABLE): hello.c $(prefix)
 	-Ivendor \
 	-O3 \
 	-DSQLITE_HELLO_VERSION="\"v$(VERSION)\"" \
+	$(CFLAGS) \
 	$< -o $@
 
 clean:
@@ -44,4 +45,8 @@ test:
 .PHONY: loadable test clean gh-release
 
 gh-release:
-	gh release create $(VERSION) --prerelease --notes="" --title=$(VERSION)
+	git add VERSION
+	git commit -m "v$(VERSION)"
+	git tag v$(VERSION)
+	git push origin main v$(VERSION)
+	gh release create v$(VERSION) --prerelease --notes="" --title=v$(VERSION)
