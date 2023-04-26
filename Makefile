@@ -41,4 +41,7 @@ clean:
 test:
 	sqlite3 :memory: '.read test.sql'
 	
-.PHONY: loadable test clean
+.PHONY: loadable test clean gh-release
+
+gh-release:
+	gh release create $(VERSION) --prerelease --notes="" --title=$(VERSION)
