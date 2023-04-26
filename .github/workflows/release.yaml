@@ -27,7 +27,6 @@ jobs:
           name: ${{ env.project }}-${{ matrix.targets.platform }}
           path: dist/*
   upload-extensions:
-    name: Upload release assets
     needs: [build]
     permissions:
       contents: write
@@ -35,7 +34,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/download-artifact@v2
-      - uses: asg017/upload-spm@main
+      - uses: asg017/upload-spm@7c4e7bffbab561e85ca52225e301093319462b62
         with:
           name: ${{ env.project }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
