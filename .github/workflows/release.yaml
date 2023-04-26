@@ -60,12 +60,6 @@ jobs:
           name: sqlite-hello
           github-token: ${{ secrets.GITHUB_TOKEN }}
           platforms: |
-            macos-x86_64: 
-              - sqlite-hello-macos-x86_64-extension/hello0.dylib
-              - sqlite-hello-macos-x86_64-extension/hola0.dylib
-            linux-x86_64: 
-              - sqlite-hello-linux-x86_64-extension/hello0.so
-              - sqlite-hello-linux-x86_64-extension/hola0.so
-            windows-x86_64: 
-              - sqlite-hello-windows-x86_64-extension/hello0.dll
-              - sqlite-hello-windows-x86_64-extension/hola0.dll
+            macos-x86_64: sqlite-hello-macos-x86_64-extension/*.dylib
+            linux-x86_64: sqlite-hello-linux-x86_64-extension/*.so
+            windows-x86_64: sqlite-hello-windows-x86_64-extension/*.dll
