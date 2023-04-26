@@ -61,5 +61,6 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           platforms: |
             macos-x86_64: sqlite-hello-macos-x86_64-extension/*.dylib
+            macos-aarch64: sqlite-hello-macos-aarch64-extension/*.dylib
             linux-x86_64: sqlite-hello-linux-x86_64-extension/*.so
             windows-x86_64: sqlite-hello-windows-x86_64-extension/*.dll
