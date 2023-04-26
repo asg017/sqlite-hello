@@ -61,11 +61,11 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           platforms: |
             macos-x86_64: 
-              - sqlite-hello-macos-x86_64/hello0.dylib
-              - sqlite-hello-macos-x86_64/hola0.dylib
+              - sqlite-hello-macos-x86_64-extension/hello0.dylib
+              - sqlite-hello-macos-x86_64-extension/hola0.dylib
             linux-x86_64: 
-              - sqlite-hello-linux-x86_64/hello0.so
-              - sqlite-hello-linux-x86_64/hola0.so
+              - sqlite-hello-linux-x86_64-extension/hello0.so
+              - sqlite-hello-linux-x86_64-extension/hola0.so
             windows-x86_64: 
-              - sqlite-hello-windows-x86_64/hello0.dll
-              - sqlite-hello-windows-x86_64/hola0.dll
+              - sqlite-hello-windows-x86_64-extension/hello0.dll
+              - sqlite-hello-windows-x86_64-extension/hola0.dll
