@@ -25,34 +25,52 @@ prefix=dist
 $(prefix):
 	mkdir -p $(prefix)
 
+DEFINE_HELLO=-DSQLITE_HELLO_VERSION="\"v$(VERSION)\""
+
 TARGET_LOADABLE_HELLO=$(prefix)/hello0.$(LOADABLE_EXTENSION)
 TARGET_LOADABLE_HOLA=$(prefix)/hola0.$(LOADABLE_EXTENSION)
 TARGET_LOADABLE=$(TARGET_LOADABLE_HELLO) $(TARGET_LOADABLE_HOLA)
+
 loadable: $(TARGET_LOADABLE)
+
+TARGET_STATIC_HELLO=$(prefix)/libsqlite_hello0.a
+TARGET_STATIC_HOLA=$(prefix)/libsqlite_hola0.a
+TARGET_STATIC=$(TARGET_STATIC_HELLO) $(TARGET_STATIC_HOLA)
+
+static: $(TARGET_STATIC)
 
 $(TARGET_LOADABLE_HELLO): hello.c $(prefix)
 	gcc -fPIC -shared \
 	-Ivendor \
 	-O3 \
-	-DSQLITE_HELLO_VERSION="\"v$(VERSION)\"" \
-	$(CFLAGS) \
+	$(DEFINE_HELLO) $(CFLAGS) \
 	$< -o $@
+
+$(TARGET_STATIC_HELLO): hello.c $(prefix)
+	gcc -Ivendor $(DEFINE_HELLO) $(CFLAGS) -DSQLITE_CORE \
+	-O3 -c  $< -o $(prefix)/hello.o
+	ar rcs $@ $(prefix)/hello.o
 
 $(TARGET_LOADABLE_HOLA): hola.c $(prefix)
 	gcc -fPIC -shared \
 	-Ivendor \
 	-O3 \
-	-DSQLITE_HELLO_VERSION="\"v$(VERSION)\"" \
-	$(CFLAGS) \
+	$(DEFINE_HELLO) $(CFLAGS) \
 	$< -o $@
+
+$(TARGET_STATIC_HOLA): hola.c $(prefix)
+	gcc -Ivendor $(DEFINE_HELLO) $(CFLAGS) -DSQLITE_CORE \
+	-O3 -c  $< -o $(prefix)/hola.o
+	ar rcs $@ $(prefix)/hola.o
 
 clean:
 	rm -rf dist/*
 
 test:
 	sqlite3 :memory: '.read test.sql'
-	
-.PHONY: loadable test clean gh-release
+
+.PHONY: loadable static test clean gh-release \
+	ruby
 
 gh-release:
 	git add VERSION
@@ -60,3 +78,9 @@ gh-release:
 	git tag v$(VERSION)
 	git push origin main v$(VERSION)
 	gh release create v$(VERSION) --prerelease --notes="" --title=v$(VERSION)
+
+ruby/lib/version.rb: ruby/lib/version.rb.tmpl VERSION
+	VERSION=$(VERSION) envsubst < $< > $@
+
+ruby: ruby/lib/version.rb
+	gem -C ruby build --platform x86_64-darwin sqlite_hello.gemspec
