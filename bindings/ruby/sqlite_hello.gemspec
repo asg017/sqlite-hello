@@ -14,7 +14,7 @@ Gem::Specification.new do |spec|
   spec.homepage      = "https://github.com/asg017/sqlite-ecosystem"
   spec.license       = "MIT"
 
-  spec.platform      = Gem::Platform::CURRENT
+  spec.platform      = ENV['PLATFORM']
 
   if spec.respond_to?(:metadata)
 

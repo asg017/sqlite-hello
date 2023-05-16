@@ -98,31 +98,27 @@ jobs:
       - run: |
           rm bindings/ruby/lib/*.{dylib,so,dll} || true
           cp sqlite-hello-macos-x86_64-extension/*.dylib bindings/ruby/lib
-          gem -C bindings/ruby build \
-            --platform x86_64-darwin \
-            -o x86_64-darwin.gem \
-            sqlite_hello.gemspec
+          gem -C bindings/ruby build -o x86_64-darwin.gem sqlite_hello.gemspec
+        env:
+          PLATFORM: x86_64-darwin
       - run: |
           rm bindings/ruby/lib/*.{dylib,so,dll} || true
           cp sqlite-hello-macos-aarch64-extension/*.dylib bindings/ruby/lib
-          gem -C bindings/ruby build \
-            --platform arm64-darwin \
-            -o arm64-darwin.gem \
-            sqlite_hello.gemspec
+          gem -C bindings/ruby build -o arm64-darwin.gem sqlite_hello.gemspec
+        env:
+          PLATFORM: arm64-darwin
       - run: |
           rm bindings/ruby/lib/*.{dylib,so,dll} || true
           cp sqlite-hello-linux-x86_64-extension/*.so bindings/ruby/lib
-          gem -C bindings/ruby build \
-            --platform x86_64-linux \
-            -o x86_64-linux.gem \
-            sqlite_hello.gemspec
+          gem -C bindings/ruby build -o x86_64-linux.gem sqlite_hello.gemspec
+        env:
+          PLATFORM: x86_64-linux
       - run: |
           rm bindings/ruby/lib/*.{dylib,so,dll} || true
           cp sqlite-hello-windows-x86_64-extension/*.dll bindings/ruby/lib
-          gem -C bindings/ruby build \
-            --platform x64-mingw32 \
-            -o x64-mingw32.gem \
-            sqlite_hello.gemspec
+          gem -C bindings/ruby build -o x64-mingw32.gem sqlite_hello.gemspec
+        env:
+          PLATFORM: x64-mingw32
       - run: |
           gem push bindings/ruby/x86_64-darwin.gem
           gem push bindings/ruby/arm64-darwin.gem
