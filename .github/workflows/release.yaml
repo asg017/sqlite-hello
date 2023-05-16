@@ -98,35 +98,35 @@ jobs:
       - run: |
           rm bindings/ruby/lib/*.{dylib,so,dll} || true
           cp sqlite-hello-macos-x86_64-extension/*.dylib bindings/ruby/lib
-          gem build \
+          gem -C bindings/ruby build \
             --platform x86_64-darwin \
             -o x86_64-darwin.gem \
-            bindings/ruby/sqlite_hello.gemspec
+            sqlite_hello.gemspec
       - run: |
           rm bindings/ruby/lib/*.{dylib,so,dll} || true
           cp sqlite-hello-macos-aarch64-extension/*.dylib bindings/ruby/lib
-          gem build \
+          gem -C bindings/ruby build \
             --platform arm64-darwin \
             -o arm64-darwin.gem \
-            bindings/ruby/sqlite_hello.gemspec
+            sqlite_hello.gemspec
       - run: |
           rm bindings/ruby/lib/*.{dylib,so,dll} || true
           cp sqlite-hello-linux-x86_64-extension/*.so bindings/ruby/lib
-          gem build \
+          gem -C bindings/ruby build \
             --platform x86_64-linux \
             -o x86_64-linux.gem \
-            bindings/ruby/sqlite_hello.gemspec
+            sqlite_hello.gemspec
       - run: |
           rm bindings/ruby/lib/*.{dylib,so,dll} || true
           cp sqlite-hello-windows-x86_64-extension/*.dll bindings/ruby/lib
-          gem build \
+          gem -C bindings/ruby build \
             --platform x64-mingw32 \
             -o x64-mingw32.gem \
-            bindings/ruby/sqlite_hello.gemspec
+            sqlite_hello.gemspec
       - run: |
-          gem push x86_64-darwin.gem
-          gem push arm64-darwin.gem
-          gem push x86_64-linux.gem
-          gem push x64-mingw32.gem
+          gem push bindings/ruby/x86_64-darwin.gem
+          gem push bindings/ruby/arm64-darwin.gem
+          gem push bindings/ruby/x86_64-linux.gem
+          gem push bindings/ruby/x64-mingw32.gem
         env:
           GEM_HOST_API_KEY: ${{ secrets.GEM_HOST_API_KEY }}
