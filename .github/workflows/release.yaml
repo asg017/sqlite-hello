@@ -123,6 +123,10 @@ jobs:
             --platform x64-mingw32 \
             -o x64-mingw32.gem \
             bindings/ruby/sqlite_hello.gemspec
-      - run: gem push *.gem
+      - run: |
+          gem push x86_64-darwin.gem
+          gem push arm64-darwin.gem
+          gem push x86_64-linux.gem
+          gem push x64-mingw32.gem
         env:
           GEM_HOST_API_KEY: ${{ secrets.GEM_HOST_API_KEY }}
