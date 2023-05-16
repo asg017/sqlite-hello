@@ -69,7 +69,7 @@ clean:
 test:
 	sqlite3 :memory: '.read test.sql'
 
-.PHONY: loadable static test clean gh-release \
+.PHONY: version loadable static test clean gh-release \
 	ruby
 
 gh-release:
@@ -79,8 +79,8 @@ gh-release:
 	git push origin main v$(VERSION)
 	gh release create v$(VERSION) --prerelease --notes="" --title=v$(VERSION)
 
-ruby/lib/version.rb: ruby/lib/version.rb.tmpl VERSION
+bindings/ruby/lib/version.rb: bindings/ruby/lib/version.rb.tmpl VERSION
 	VERSION=$(VERSION) envsubst < $< > $@
 
-ruby: ruby/lib/version.rb
-	gem -C ruby build --platform x86_64-darwin sqlite_hello.gemspec
+version:
+	make bindings/ruby/lib/version.rb
