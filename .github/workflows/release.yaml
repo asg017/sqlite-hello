@@ -92,6 +92,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/download-artifact@v2
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.1
       - run: |
           rm bindings/ruby/lib/*.{dylib,so,dll} || true
           cp sqlite-hello-macos-x86_64-extension/*.dylib bindings/ruby/lib
