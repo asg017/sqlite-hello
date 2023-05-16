@@ -4,14 +4,14 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "sqlite_hello"
+  spec.name          = "sqlite-hello"
   spec.version       = SqliteHello::VERSION
   spec.authors       = ["Alex Garcia"]
   spec.email         = ["alexsebastian.garcia@gmail.com"]
 
   spec.summary       = "a"
   spec.description   = "b"
-  spec.homepage      = "https://github.com/asg017/sqlite-ecosystem"
+  spec.homepage      = "https://github.com/asg017/sqlite-hello"
   spec.license       = "MIT"
 
   spec.platform      = ENV['PLATFORM']
