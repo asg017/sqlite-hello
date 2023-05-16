@@ -93,28 +93,28 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/download-artifact@v2
       - run: |
-          rm bindings/ruby/lib/*.{dylib,so,dll}
+          rm bindings/ruby/lib/*.{dylib,so,dll} || true
           cp sqlite-hello-macos-x86_64-extension/*.dylib bindings/ruby/lib
           gem build \
             --platform x86_64-darwin \
             -O x86_64-darwin.gem \
             bindings/ruby/sqlite_hello.gemspec
       - run: |
-          rm bindings/ruby/lib/*.{dylib,so,dll}
+          rm bindings/ruby/lib/*.{dylib,so,dll} || true
           cp sqlite-hello-macos-aarch64-extension/*.dylib bindings/ruby/lib
           gem build \
             --platform arm64-darwin \
             -O arm64-darwin.gem \
             bindings/ruby/sqlite_hello.gemspec
       - run: |
-          rm bindings/ruby/lib/*.{dylib,so,dll}
+          rm bindings/ruby/lib/*.{dylib,so,dll} || true
           cp sqlite-hello-linux-x86_64-extension/*.so bindings/ruby/lib
           gem build \
             --platform x86_64-linux \
             -O x86_64-linux.gem \
             bindings/ruby/sqlite_hello.gemspec
       - run: |
-          rm bindings/ruby/lib/*.{dylib,so,dll}
+          rm bindings/ruby/lib/*.{dylib,so,dll} || true
           cp sqlite-hello-windows-x86_64-extension/*.dll bindings/ruby/lib
           gem build \
             --platform x64-mingw32 \
