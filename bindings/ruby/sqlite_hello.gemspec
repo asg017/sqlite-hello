@@ -14,6 +14,9 @@ Gem::Specification.new do |spec|
   spec.homepage      = "https://github.com/asg017/sqlite-hello"
   spec.license       = "MIT"
 
+  # The --platform flag would work in most cases, but on a GH action
+  # linux runner, it would set platform to "ruby" and not "x86-linux".
+  # Setting this to Gem::Platform::CURRENT
   spec.platform      = ENV['PLATFORM']
 
   if spec.respond_to?(:metadata)

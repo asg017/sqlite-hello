@@ -2,3 +2,9 @@ dist/
 *.dylib
 *.so
 *.dll
+
+.ruby-version
+.vscode
+examples/
+bindings/elixir
+bindings/rust

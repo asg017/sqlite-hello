@@ -16,9 +16,15 @@ ifdef CONFIG_LINUX
 LOADABLE_EXTENSION=so
 endif
 
-
 ifdef CONFIG_WINDOWS
 LOADABLE_EXTENSION=dll
+endif
+
+
+ifdef python
+PYTHON=$(python)
+else
+PYTHON=python3
 endif
 
 prefix=dist
@@ -79,8 +85,45 @@ gh-release:
 	git push origin main v$(VERSION)
 	gh release create v$(VERSION) --prerelease --notes="" --title=v$(VERSION)
 
+
+TARGET_WHEELS=$(prefix)/wheels
+INTERMEDIATE_PYPACKAGE_EXTENSION=bindings/python/sqlite_hello/
+
+$(TARGET_WHEELS): $(prefix)
+	mkdir -p $(TARGET_WHEELS)
+
 bindings/ruby/lib/version.rb: bindings/ruby/lib/version.rb.tmpl VERSION
 	VERSION=$(VERSION) envsubst < $< > $@
 
+bindings/python/sqlite_hello/version.py: bindings/python/sqlite_hello/version.py.tmpl VERSION
+	VERSION=$(VERSION) envsubst < $< > $@
+	echo "✅ generated $@"
+
+bindings/datasette/datasette_sqlite_hello/version.py: bindings/datasette/datasette_sqlite_hello/version.py.tmpl VERSION
+	VERSION=$(VERSION) envsubst < $< > $@
+	echo "✅ generated $@"
+
+python: $(TARGET_WHEELS) $(TARGET_LOADABLE) bindings/python/setup.py bindings/python/sqlite_hello/__init__.py scripts/rename-wheels.py
+	cp $(TARGET_LOADABLE_HELLO) $(INTERMEDIATE_PYPACKAGE_EXTENSION)
+	cp $(TARGET_LOADABLE_HOLA) $(INTERMEDIATE_PYPACKAGE_EXTENSION)
+	rm $(TARGET_WHEELS)/*.wheel || true
+	pip3 wheel bindings/python/sqlite_hello/ -w $(TARGET_WHEELS)
+	python3 scripts/rename-wheels.py $(TARGET_WHEELS) $(RENAME_WHEELS_ARGS)
+	echo "✅ generated python wheel"
+
+datasette: $(TARGET_WHEELS) python/datasette_sqlite_hello/setup.py python/datasette_sqlite_hello/datasette_sqlite_hello/__init__.py
+	rm $(TARGET_WHEELS)/datasette* || true
+	pip3 wheel python/datasette_sqlite_hello/ --no-deps -w $(TARGET_WHEELS)
+
+node: VERSION bindings/node/platform-package.README.md.tmpl bindings/node/platform-package.package.json.tmpl bindings/node/sqlite-hello/package.json.tmpl scripts/node_generate_platform_packages.sh
+	scripts/node_generate_platform_packages.sh
+
+deno: VERSION bindings/deno/deno.json.tmpl
+	scripts/deno_generate_package.sh
+
 version:
 	make bindings/ruby/lib/version.rb
+	make bindings/python/sqlite_hello/version.py
+	make bindings/datasette/datasette_sqlite_hello/version.py
+	make node
+	make deno

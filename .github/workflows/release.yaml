@@ -78,6 +78,25 @@ jobs:
             linux-x86_64:   sqlite-hello-linux-x86_64-extension/*.a
             windows-x86_64: sqlite-hello-windows-x86_64-extension/*.a
       - run: echo "${{ steps.upload-spm-loadable.outputs.asset-checksums }}" "${{ steps.upload-spm-static.outputs.asset-checksums }}"
+      - uses: actions/github-script@v6
+        env:
+          CHECKSUMS: "${{ steps.upload-spm-loadable.outputs.asset-checksums }}\n${{ steps.upload-spm-static.outputs.asset-checksums }}"
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const release = await github.rest.repos.getReleaseByTag({
+              owner,
+              repo,
+              tag: process.env.GITHUB_REF.replace("refs/tags/", ""),
+            });
+            const release_id = release.data.id;
+            github.rest.repos.uploadReleaseAsset({
+              owner,
+              repo,
+              release_id,
+              name: "checksums.txt",
+              data: process.env.CHECKSUMS,
+            });
   upload-gem:
     needs:
       [
