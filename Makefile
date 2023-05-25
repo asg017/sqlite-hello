@@ -130,5 +130,6 @@ version:
 	make bindings/ruby/lib/version.rb
 	make bindings/python/sqlite_hello/version.py
 	make bindings/datasette/datasette_sqlite_hello/version.py
+	make bindings/rust/Cargo.toml
 	make node
 	make deno

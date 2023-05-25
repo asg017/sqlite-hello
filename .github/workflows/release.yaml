@@ -97,6 +97,17 @@ jobs:
               name: "checksums.txt",
               data: process.env.CHECKSUMS,
             });
+  upload-crate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      - run: cargo publish
+        working-directory: ./bindings/rust
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
   upload-gem:
     needs:
       [
