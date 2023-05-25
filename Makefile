@@ -95,6 +95,9 @@ $(TARGET_WHEELS): $(prefix)
 bindings/ruby/lib/version.rb: bindings/ruby/lib/version.rb.tmpl VERSION
 	VERSION=$(VERSION) envsubst < $< > $@
 
+bindings/rust/Cargo.toml: bindings/rust/Cargo.toml.tmpl VERSION
+	VERSION=$(VERSION) envsubst < $< > $@
+
 bindings/python/sqlite_hello/version.py: bindings/python/sqlite_hello/version.py.tmpl VERSION
 	VERSION=$(VERSION) envsubst < $< > $@
 	echo "✅ generated $@"
@@ -120,6 +123,8 @@ node: VERSION bindings/node/platform-package.README.md.tmpl bindings/node/platfo
 
 deno: VERSION bindings/deno/deno.json.tmpl
 	scripts/deno_generate_package.sh
+
+rust: bindings/rust/Cargo.toml
 
 version:
 	make bindings/ruby/lib/version.rb
