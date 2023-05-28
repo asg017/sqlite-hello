@@ -1,6 +1,8 @@
 #ifndef _SQLITE_HELLO_H
 #define _SQLITE_HELLO_H
 
+//#include "sqlite3.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif

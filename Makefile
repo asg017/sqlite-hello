@@ -37,37 +37,45 @@ TARGET_LOADABLE_HELLO=$(prefix)/hello0.$(LOADABLE_EXTENSION)
 TARGET_LOADABLE_HOLA=$(prefix)/hola0.$(LOADABLE_EXTENSION)
 TARGET_LOADABLE=$(TARGET_LOADABLE_HELLO) $(TARGET_LOADABLE_HOLA)
 
-loadable: $(TARGET_LOADABLE)
-
 TARGET_STATIC_HELLO=$(prefix)/libsqlite_hello0.a
+TARGET_STATIC_HELLO_H=$(prefix)/sqlite-hello.h
 TARGET_STATIC_HOLA=$(prefix)/libsqlite_hola0.a
-TARGET_STATIC=$(TARGET_STATIC_HELLO) $(TARGET_STATIC_HOLA)
+TARGET_STATIC_HOLA_H=$(prefix)/sqlite-hola.h
+TARGET_STATIC=$(TARGET_STATIC_HELLO) $(TARGET_STATIC_HELLO_H) $(TARGET_STATIC_HOLA) $(TARGET_STATIC_HOLA_H)
 
+
+loadable: $(TARGET_LOADABLE)
 static: $(TARGET_STATIC)
 
-$(TARGET_LOADABLE_HELLO): hello.c $(prefix)
+$(TARGET_LOADABLE_HELLO): sqlite-hello.c $(prefix)
 	gcc -fPIC -shared \
 	-Ivendor \
 	-O3 \
 	$(DEFINE_HELLO) $(CFLAGS) \
 	$< -o $@
 
-$(TARGET_STATIC_HELLO): hello.c $(prefix)
+$(TARGET_STATIC_HELLO): sqlite-hello.c $(prefix)
 	gcc -Ivendor $(DEFINE_HELLO) $(CFLAGS) -DSQLITE_CORE \
 	-O3 -c  $< -o $(prefix)/hello.o
 	ar rcs $@ $(prefix)/hello.o
 
-$(TARGET_LOADABLE_HOLA): hola.c $(prefix)
+$(TARGET_STATIC_HELLO_H): sqlite-hello.h $(prefix)
+	cp $< $@
+
+$(TARGET_LOADABLE_HOLA): sqlite-hola.c $(prefix)
 	gcc -fPIC -shared \
 	-Ivendor \
 	-O3 \
 	$(DEFINE_HELLO) $(CFLAGS) \
 	$< -o $@
 
-$(TARGET_STATIC_HOLA): hola.c $(prefix)
+$(TARGET_STATIC_HOLA): sqlite-hola.c $(prefix)
 	gcc -Ivendor $(DEFINE_HELLO) $(CFLAGS) -DSQLITE_CORE \
 	-O3 -c  $< -o $(prefix)/hola.o
 	ar rcs $@ $(prefix)/hola.o
+
+$(TARGET_STATIC_HOLA_H): sqlite-hola.h $(prefix)
+	cp $< $@
 
 clean:
 	rm -rf dist/*
@@ -105,6 +113,12 @@ bindings/python/sqlite_hello/version.py: bindings/python/sqlite_hello/version.py
 bindings/datasette/datasette_sqlite_hello/version.py: bindings/datasette/datasette_sqlite_hello/version.py.tmpl VERSION
 	VERSION=$(VERSION) envsubst < $< > $@
 	echo "✅ generated $@"
+
+bindings/go/hello/sqlite-hello.h: sqlite-hello.h
+	cp $< $@
+
+bindings/go/hola/sqlite-hola.h: sqlite-hola.h
+	cp $< $@
 
 python: $(TARGET_WHEELS) $(TARGET_LOADABLE) bindings/python/setup.py bindings/python/sqlite_hello/__init__.py scripts/rename-wheels.py
 	cp $(TARGET_LOADABLE_HELLO) $(INTERMEDIATE_PYPACKAGE_EXTENSION)

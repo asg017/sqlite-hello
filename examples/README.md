@@ -1,0 +1,12 @@
+| Language                           | Code                        |
+| ---------------------------------- | --------------------------- |
+| Python                             | [`python/`](./python)       |
+| Node.js                            | [`node/`](./node)           |
+| Deno                               | [`deno/`](./deno)           |
+| Ruby                               | [`ruby/`](./ruby)           |
+| [Datasette](https://datasette.io/) | [`datasette/`](./datasette) |
+| `sqlite3`                          | [`sqlite3/`](./sqlite3)     |
+| C                                  | [`c/`](./c)                 |
+| C++                                | [`c++/`](./c++)             |
+| Go                                 | [`go/`](./go)               |
+| Rust                               | [`rust/`](./rust)           |

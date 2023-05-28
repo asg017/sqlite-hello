@@ -1,0 +1,13 @@
+.bail on
+
+.load ../../dist/hello0
+.load ../../dist/hola0
+
+.mode box
+.header on
+
+select hello_version();
+
+select hello('Alex');
+
+select hola('Alex');

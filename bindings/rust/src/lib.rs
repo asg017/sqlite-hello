@@ -1,7 +1,10 @@
+#[cfg(feature = "hello")]
 #[link(name = "sqlite_hello0")]
 extern "C" {
     pub fn sqlite3_hello_init();
 }
+
+#[cfg(feature = "hola")]
 #[link(name = "sqlite_hola0")]
 extern "C" {
     pub fn sqlite3_hola_init();

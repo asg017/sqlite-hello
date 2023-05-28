@@ -1,0 +1,13 @@
+[package]
+name = "sqlite-hello-demo"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+rusqlite = {version="0.29.0", features=["bundled"]}
+libsqlite3-sys = "0.26.0"
+sqlite-hello = {path="../../bindings/rust", features=["download-libs"]}
+
+[[bin]]
+name="demo"
+path="demo.rs"

@@ -5,6 +5,6 @@ dist/
 
 .ruby-version
 .vscode
-examples/
+examples/c
+examples/c++
 bindings/elixir
-bindings/rust
