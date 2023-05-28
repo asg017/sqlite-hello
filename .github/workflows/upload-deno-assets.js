@@ -1,4 +1,5 @@
 const fs = require("fs").promises;
+import { createHash } from "node:crypto";
 
 module.exports = async ({ github, context }) => {
   const VERSION = process.env.GITHUB_REF_NAME;
