@@ -162,6 +162,8 @@ jobs:
   upload-checksums:
     needs: [upload-extensions, upload-deno]
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/github-script@v6
         env:
