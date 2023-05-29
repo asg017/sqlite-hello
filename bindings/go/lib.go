@@ -1,8 +1,8 @@
 package hello
 
 import (
-	hello "github.com/asg017/sqlite-hello/go/hello"
-	hola "github.com/asg017/sqlite-hello/go/hola"
+	hello "github.com/asg017/sqlite-hello/bindings/go/hello"
+	hola "github.com/asg017/sqlite-hello/bindings/go/hola"
 )
 
 

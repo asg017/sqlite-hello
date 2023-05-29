@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	_ "github.com/asg017/sqlite-hello/go"
+	_ "github.com/asg017/sqlite-hello/bindings/go"
 	_ "github.com/mattn/go-sqlite3"
 )
 

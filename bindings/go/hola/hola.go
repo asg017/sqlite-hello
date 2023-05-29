@@ -1,4 +1,4 @@
-package hello
+package hola
 
 // #cgo LDFLAGS: -lsqlite_hola0
 // #cgo CFLAGS: -DSQLITE_CORE
