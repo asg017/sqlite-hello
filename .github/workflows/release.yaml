@@ -167,6 +167,7 @@ jobs:
         env:
           CHECKSUMS: "${{ needs.upload-extensions.outputs.checksums }}\n${{ needs.upload-deno.outputs.deno-checksums }}"
         with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const { owner, repo } = context.repo;
             const release = await github.rest.repos.getReleaseByTag({
@@ -190,7 +191,7 @@ jobs:
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
-      - run: cargo publish
+      - run: cargo publish --no-verify
         working-directory: ./bindings/rust
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
