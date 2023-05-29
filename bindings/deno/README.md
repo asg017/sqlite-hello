@@ -3,13 +3,13 @@
 # `x/sqlite_hello` Deno Module
 
 [![Tags](https://img.shields.io/github/release/asg017/sqlite-hello)](https://github.com/asg017/sqlite-hello/releases)
-[![Doc](https://doc.deno.land/badge.svg)](https://doc.deno.land/https/deno.land/x/sqlite-hello@0.1.0-alpha.33/mod.ts)
+[![Doc](https://doc.deno.land/badge.svg)](https://doc.deno.land/https/deno.land/x/sqlite-hello@0.1.0-alpha.34/mod.ts)
 
 The [`sqlite-hello`](https://github.com/asg017/sqlite-hello) SQLite extension is available to Deno developers with the [`x/sqlite_hello`](https://deno.land/x/sqlite_hello) Deno module. It works with [`x/sqlite3`](https://deno.land/x/sqlite3), the fastest and native Deno SQLite3 module.
 
 ```js
 import { Database } from "https://deno.land/x/sqlite3@0.8.0/mod.ts";
-import * as sqlite_hello from "https://deno.land/x/sqlite_hello@v0.1.0-alpha.33/mod.ts";
+import * as sqlite_hello from "https://deno.land/x/sqlite_hello@v0.1.0-alpha.34/mod.ts";
 
 const db = new Database(":memory:");
 
