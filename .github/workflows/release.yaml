@@ -14,6 +14,23 @@ jobs:
         with:
           name: sqlite-hello-linux-x86_64-extension
           path: dist/*
+  build-linux-x86_64-python:
+    runs-on: ubuntu-20.04
+    needs: [build-linux-x86_64-extension]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v3
+        with:
+          name: sqlite-hello-linux-x86_64-extension
+          path: dist/
+      - uses: actions/setup-python@v3
+      - run: pip install wheel
+      - run: make python
+      - run: make datasette
+      - uses: actions/upload-artifact@v3
+        with:
+          name: sqlite-hello-linux-x86_64-wheels
+          path: dist/wheels/*.whl
   build-macos-x86_64-extension:
     runs-on: macos-11
     steps:
@@ -23,6 +40,23 @@ jobs:
         with:
           name: sqlite-hello-macos-x86_64-extension
           path: dist/*
+  build-macos-x86_64-python:
+    runs-on: ubuntu-20.04
+    needs: [build-macos-x86_64-extension]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v3
+        with:
+          name: sqlite-hello-macos-x86_64-extension
+          path: dist/
+      - uses: actions/setup-python@v3
+      - run: pip install wheel
+      - run: make python
+      - run: make datasette
+      - uses: actions/upload-artifact@v3
+        with:
+          name: sqlite-hello-macos-x86_64-wheels
+          path: dist/wheels/*.whl
   build-macos-aarch64-extension:
     runs-on: macos-11
     steps:
@@ -32,6 +66,23 @@ jobs:
         with:
           name: sqlite-hello-macos-aarch64-extension
           path: dist/*
+  build-macos-aarch64-python:
+    runs-on: ubuntu-20.04
+    needs: [build-macos-aarch64-extension]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v3
+        with:
+          name: sqlite-hello-macos-aarch64-extension
+          path: dist/
+      - uses: actions/setup-python@v3
+      - run: pip install wheel
+      - run: make python
+      - run: make datasette
+      - uses: actions/upload-artifact@v3
+        with:
+          name: sqlite-hello-macos-aarch64-wheels
+          path: dist/wheels/*.whl
   build-windows-x86_64-extension:
     runs-on: windows-2019
     steps:
@@ -41,6 +92,47 @@ jobs:
         with:
           name: sqlite-hello-windows-x86_64-extension
           path: dist/*
+  build-windows-x86_64-python:
+    runs-on: ubuntu-20.04
+    needs: [build-windows-x86_64-extension]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v3
+        with:
+          name: sqlite-hello-windows-x86_64-extension
+          path: dist/
+      - uses: actions/setup-python@v3
+      - run: pip install wheel
+      - run: make python
+      - run: make datasette
+      - uses: actions/upload-artifact@v3
+        with:
+          name: sqlite-hello-windows-x86_64-wheels
+          path: dist/wheels/*.whl
+  upload-deno:
+    needs:
+      [
+        build-linux-x86_64-extension,
+        build-macos-x86_64-extension,
+        build-macos-aarch64-extension,
+        build-windows-x86_64-extension,
+      ]
+    outputs:
+      deno-checksums: ${{ steps.deno-assets.outputs.result }}
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v2
+      - id: deno-assets
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          result-encoding: string
+          script: |
+            const script = require('.github/workflows/upload-deno-assets.js')
+            return await script({github, context})
   upload-extensions:
     needs:
       [
@@ -52,18 +144,11 @@ jobs:
     permissions:
       contents: write
     runs-on: ubuntu-latest
+    outputs:
+      checksums: ${{ steps.upload-spm.outputs.asset-checksums }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/download-artifact@v2
-      - name: Upload Deno Assets
-        id: deno-assets
-        uses: actions/github-script@v6
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          result-encoding: string
-          script: |
-            const script = require('.github/workflows/upload-deno-assets.js')
-            return await script({github, context})
       - uses: asg017/upload-spm@main
         id: upload-spm
         with:
@@ -74,10 +159,13 @@ jobs:
             macos-aarch64:  sqlite-hello-macos-aarch64-extension/*
             linux-x86_64:   sqlite-hello-linux-x86_64-extension/*
             windows-x86_64: sqlite-hello-windows-x86_64-extension/*
-
+  upload-checksums:
+    needs: [upload-extensions, upload-deno]
+    runs-on: ubuntu-latest
+    steps:
       - uses: actions/github-script@v6
         env:
-          CHECKSUMS: "${{ steps.upload-spm.outputs.asset-checksums }}\n${{ steps.deno-assets.outputs.result }}"
+          CHECKSUMS: "${{ needs.upload-extensions.outputs.checksums }}\n${{ needs.upload-deno.outputs.deno-checksums }}"
         with:
           script: |
             const { owner, repo } = context.repo;
@@ -154,3 +242,78 @@ jobs:
           gem push bindings/ruby/x64-mingw32.gem
         env:
           GEM_HOST_API_KEY: ${{ secrets.GEM_HOST_API_KEY }}
+  upload-npm:
+    needs:
+      [
+        build-macos-x86_64-extension,
+        build-macos-aarch64-extension,
+        build-linux-x86_64-extension,
+      ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v2
+      - run: |
+          cp sqlite-hello-linux-x86_64-extension/*.so bindings/node/sqlite-hello-linux-x64/lib/
+          cp sqlite-hello-macos-x86_64-extension/*.dylib bindings/node/sqlite-hello-darwin-x64/lib/
+          cp sqlite-hello-macos-aarch64-extension/*.dylib bindings/node/sqlite-hello-darwin-arm64/lib/
+          cp sqlite-hello-windows-x86_64-extension/*.dll bindings/node/sqlite-hello-windows-x64/lib/
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+          registry-url: "https://registry.npmjs.org"
+      - name: Publish NPM sqlite-hello-linux-x64
+        working-directory: bindings/node/sqlite-hello-linux-x64
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Publish NPM sqlite-hello-darwin-x64
+        working-directory: bindings/node/sqlite-hello-darwin-x64
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Publish NPM sqlite-hello-darwin-arm64
+        working-directory: bindings/node/sqlite-hello-darwin-arm64
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Publish NPM sqlite-hello-windows-x64
+        working-directory: bindings/node/sqlite-hello-windows-x64
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Publish NPM sqlite-hello
+        working-directory: bindings/node/sqlite-hello
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+  upload-pypi:
+    needs:
+      [
+        build-linux-x86_64-python,
+        build-macos-x86_64-python,
+        build-macos-aarch64-python,
+        build-windows-x86_64-python,
+      ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: sqlite-hello-linux-x86_64-wheels
+          path: dist
+      - uses: actions/download-artifact@v3
+        with:
+          name: sqlite-hello-macos-x86_64-wheels
+          path: dist
+      - uses: actions/download-artifact@v3
+        with:
+          name: sqlite-hello-macos-aarch64-wheels
+          path: dist
+      - uses: actions/download-artifact@v3
+        with:
+          name: sqlite-hello-windows-x86_64-wheels
+          path: dist
+      - uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          password: ${{ secrets.PYPI_API_TOKEN }}
+          skip-existing: true

@@ -124,13 +124,13 @@ python: $(TARGET_WHEELS) $(TARGET_LOADABLE) bindings/python/setup.py bindings/py
 	cp $(TARGET_LOADABLE_HELLO) $(INTERMEDIATE_PYPACKAGE_EXTENSION)
 	cp $(TARGET_LOADABLE_HOLA) $(INTERMEDIATE_PYPACKAGE_EXTENSION)
 	rm $(TARGET_WHEELS)/*.wheel || true
-	pip3 wheel bindings/python/sqlite_hello/ -w $(TARGET_WHEELS)
+	pip3 wheel bindings/python/ -w $(TARGET_WHEELS)
 	python3 scripts/rename-wheels.py $(TARGET_WHEELS) $(RENAME_WHEELS_ARGS)
 	echo "✅ generated python wheel"
 
-datasette: $(TARGET_WHEELS) python/datasette_sqlite_hello/setup.py python/datasette_sqlite_hello/datasette_sqlite_hello/__init__.py
+datasette: $(TARGET_WHEELS) bindings/datasette/setup.py bindings/datasette/datasette_sqlite_hello/__init__.py
 	rm $(TARGET_WHEELS)/datasette* || true
-	pip3 wheel python/datasette_sqlite_hello/ --no-deps -w $(TARGET_WHEELS)
+	pip3 wheel bindings/datasette/ --no-deps -w $(TARGET_WHEELS)
 
 node: VERSION bindings/node/platform-package.README.md.tmpl bindings/node/platform-package.package.json.tmpl bindings/node/sqlite-hello/package.json.tmpl scripts/node_generate_platform_packages.sh
 	scripts/node_generate_platform_packages.sh
