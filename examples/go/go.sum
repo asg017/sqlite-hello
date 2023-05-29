@@ -1,4 +1,6 @@
 github.com/asg017/sqlite-hello/bindings/go v0.0.0-20230529050301-2662b4252066 h1:UHVEl//NldOOT8JQS42rbHKHfQQeidOO/JWhI7Pa3So=
 github.com/asg017/sqlite-hello/bindings/go v0.0.0-20230529050301-2662b4252066/go.mod h1:WegztKRpGqZfgNHyK22jVsNbLXNBSsYfARGJABaKMYk=
+github.com/asg017/sqlite-hello/bindings/go v0.0.0-20230529051321-8bd578f11697 h1:lqsCMWV7Vv3U7cQJM7wbPBysDpG0Se1X2bMq1+EchjU=
+github.com/asg017/sqlite-hello/bindings/go v0.0.0-20230529051321-8bd578f11697/go.mod h1:WegztKRpGqZfgNHyK22jVsNbLXNBSsYfARGJABaKMYk=
 github.com/mattn/go-sqlite3 v1.14.16 h1:yOQRA0RpS5PFz/oikGwBEqvAWhWg5ufRz4ETLjwpU1Y=
 github.com/mattn/go-sqlite3 v1.14.16/go.mod h1:2eHXhiwb8IkHr+BDWZGa96P6+rkvnG63S2DGjv9HUNg=
