@@ -2,7 +2,7 @@ defmodule SqliteHello.MixProject do
   use Mix.Project
 
   @source_url "https://github.com/asg017/sqlite-hello/bindings/elixir"
-  @version = File.read!(Path.expand("../../VERSION", __DIR__)) |> String.trim()
+  @version File.read!(Path.expand("../../VERSION", __DIR__)) |> String.trim()
 
   def project do
     [
@@ -49,7 +49,7 @@ defmodule SqliteHello.MixProject do
         "checksum-sqlite-hello.exs"
       ],
       links: %{"GitHub" => @source_url},
-      maintainers: ["Alex Garcia", "Tommy Rodriguez"]
+      maintainers: ["Alex Garcia", "Tommy Rodriguez"],
       licenses: ["MIT"],
     ]
   end
