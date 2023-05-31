@@ -87,7 +87,8 @@ test:
 	ruby
 
 gh-release:
-	git add VERSION
+	make version
+	git add --all
 	git commit -m "v$(VERSION)"
 	git tag v$(VERSION)
 	git push origin main v$(VERSION)
