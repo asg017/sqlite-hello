@@ -107,6 +107,9 @@ bindings/ruby/lib/version.rb: bindings/ruby/lib/version.rb.tmpl VERSION
 bindings/rust/Cargo.toml: bindings/rust/Cargo.toml.tmpl VERSION
 	VERSION=$(VERSION) envsubst < $< > $@
 
+bindings/rust/Cargo.lock: bindings/rust/Cargo.toml
+	cargo update
+
 bindings/python/sqlite_hello/version.py: bindings/python/sqlite_hello/version.py.tmpl VERSION
 	VERSION=$(VERSION) envsubst < $< > $@
 	echo "✅ generated $@"
@@ -139,12 +142,12 @@ node: VERSION bindings/node/platform-package.README.md.tmpl bindings/node/platfo
 deno: VERSION bindings/deno/deno.json.tmpl
 	scripts/deno_generate_package.sh
 
-rust: bindings/rust/Cargo.toml
+rust: bindings/rust/Cargo.toml bindings/rust/Cargo.lock
 
 version:
 	make bindings/ruby/lib/version.rb
 	make bindings/python/sqlite_hello/version.py
 	make bindings/datasette/datasette_sqlite_hello/version.py
-	make bindings/rust/Cargo.toml
+	make rust
 	make node
 	make deno

@@ -199,6 +199,7 @@ jobs:
         with:
           otp-version: "24"
           rebar3-version: "3.16.1"
+          elixir-version: "1.14"
       - run: ./scripts/elixir_generate_checksum.sh "${{ needs.upload-extensions.outputs.checksums }}"
       - run: mix hex.publish --yes
         env:
@@ -267,9 +268,10 @@ jobs:
   upload-npm:
     needs:
       [
+        build-linux-x86_64-extension,
         build-macos-x86_64-extension,
         build-macos-aarch64-extension,
-        build-linux-x86_64-extension,
+        build-windows-x86_64-extension,
       ]
     runs-on: ubuntu-latest
     steps:
