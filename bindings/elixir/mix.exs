@@ -2,11 +2,12 @@ defmodule SqliteHello.MixProject do
   use Mix.Project
 
   @source_url "https://github.com/asg017/sqlite-hello/bindings/elixir"
+  @version = File.read!(Path.expand("../../VERSION", __DIR__)) |> String.trim()
 
   def project do
     [
       app: :sqlite_hello,
-      version: "0.1.0",
+      version: @version,
       elixir: "~> 1.14",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
@@ -41,7 +42,6 @@ defmodule SqliteHello.MixProject do
 
   defp package do
     [
-      name: "sqlite-hello",
       files: [
         "lib",
         "mix.exs",
