@@ -40,6 +40,10 @@ defmodule SqliteHello.MixProject do
     ]
   end
 
+    defp description() do
+    "sqlite-hello please."
+  end
+
   defp package do
     [
       files: [
