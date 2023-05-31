@@ -195,9 +195,7 @@ jobs:
     needs: [upload-checksums]
     steps:
       - uses: actions/checkout@v2
-      - uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
+      - uses: erlef/setup-beam@v1
       - run: ./scripts/elixir_generate_checksum.sh "${{ needs.upload-checksums.outputs.checksums }}"
       - run: mix hex.publish --yes
         env:
