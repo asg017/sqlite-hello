@@ -2,7 +2,7 @@
 
 [package]
 name = "sqlite-hello"
-version = "0.1.0-alpha.39"
+version = "0.1.0-alpha.40"
 edition = "2021"
 authors = ["Alex Garcia <alexsebastian.garcia@gmail.com>"]
 description = "FFI bindings to the sqlite-hello SQLite extension"
@@ -21,7 +21,6 @@ tar = { version = "0.4.38", optional = true }
 zip = { version = "0.6.6", optional = true }
 
 [dev-dependencies]
-libsqlite3-sys = "0.26.0"
 rusqlite = "0.29.0"
 
 [features]
