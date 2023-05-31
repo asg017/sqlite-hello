@@ -19,6 +19,7 @@ defmodule SqliteHello.MixProject do
         extras: ["README.md"],
         source_ref: "v0.1.0"
       ],
+      description: description(),
       package: package()
     ]
   end
