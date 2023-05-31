@@ -14,8 +14,7 @@ extern "C" {
 mod tests {
     use super::*;
 
-    use libsqlite3_sys::sqlite3_auto_extension;
-    use rusqlite::Connection;
+    use rusqlite::{ffi::sqlite3_auto_extension, Connection};
 
     #[test]
     fn test_rusqlite_auto_extension() {

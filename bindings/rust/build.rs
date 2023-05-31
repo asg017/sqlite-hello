@@ -24,7 +24,7 @@ fn download_static_for_platform(_version: String, _output_directory: &PathBuf) {
 #[cfg(feature = "download-libs")]
 fn download_static_for_platform(version: String, output_directory: &PathBuf) {
     let os = std::env::var("CARGO_CFG_TARGET_OS").expect("CARGO_CFG_TARGET_OS not found");
-    let arch = std::env::var("CARGO_CFG_TARGET_ARCH").unwrap();
+    let arch = std::env::var("CARGO_CFG_TARGET_ARCH").expect("CARGO_CFG_TARGET_ARCH not found");
     let platform = match (os.as_str(), arch.as_str()) {
         ("linux", "x86_64") => Platform::LinuxX86_64,
         ("windows", "x86_64") => Platform::WindowsX86_64,
@@ -57,7 +57,9 @@ fn download_static_for_platform(version: String, output_directory: &PathBuf) {
 
     if url.ends_with(".zip") {
         let mut buf = Vec::new();
-        reader.read_to_end(&mut buf).unwrap();
+        reader
+            .read_to_end(&mut buf)
+            .expect("reading zip file failed");
         let mut archive =
             ZipArchive::new(std::io::Cursor::new(buf)).expect("Failed to open zip archive");
         archive
@@ -86,7 +88,7 @@ fn main() {
         }
         output_directory
     } else {
-        std::env::var("LIB_SQLITE_HELLO").unwrap().into()
+        std::env::var("LIB_SQLITE_HELLO").expect("The LIB_SQLITE_HELLO environment variable needs to be defined if the download-libs feature is not enabled").into()
     };
 
     println!("Extraction completed successfully!");
