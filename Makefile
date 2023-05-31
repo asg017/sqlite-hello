@@ -108,7 +108,7 @@ bindings/rust/Cargo.toml: bindings/rust/Cargo.toml.tmpl VERSION
 	VERSION=$(VERSION) envsubst < $< > $@
 
 bindings/rust/Cargo.lock: bindings/rust/Cargo.toml
-	cargo update
+	cargo update --manifest-path=$<
 
 bindings/python/sqlite_hello/version.py: bindings/python/sqlite_hello/version.py.tmpl VERSION
 	VERSION=$(VERSION) envsubst < $< > $@
