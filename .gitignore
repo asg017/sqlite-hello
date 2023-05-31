@@ -7,4 +7,3 @@ dist/
 .vscode
 examples/c
 examples/c++
-bindings/elixir

@@ -1,0 +1,4 @@
+deps/
+_build/
+
+sqlite-hello-checksum.exs
