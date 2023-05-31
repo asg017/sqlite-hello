@@ -51,7 +51,7 @@ defmodule SqliteHello.MixProject do
         "lib",
         "mix.exs",
         "README.md",
-        "checksum-sqlite-hello.exs"
+        "sqlite-hello-checksum.exs"
       ],
       links: %{"GitHub" => @source_url},
       maintainers: ["Alex Garcia", "Tommy Rodriguez"],
