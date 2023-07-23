@@ -136,6 +136,17 @@ datasette: $(TARGET_WHEELS) bindings/datasette/setup.py bindings/datasette/datas
 	rm $(TARGET_WHEELS)/datasette* || true
 	pip3 wheel bindings/datasette/ --no-deps -w $(TARGET_WHEELS)
 
+bindings/sqlite-utils/pyproject.toml: bindings/sqlite-utils/pyproject.toml.tmpl
+	VERSION=$(VERSION) envsubst < $< > $@
+	echo "✅ generated $@"
+
+bindings/sqlite-utils/sqlite_utils_sqlite_hello/version.py: bindings/sqlite-utils/sqlite_utils_sqlite_hello/version.py.tmpl
+	VERSION=$(VERSION) envsubst < $< > $@
+	echo "✅ generated $@"
+
+sqlite-utils: $(TARGET_WHEELS) bindings/sqlite-utils/pyproject.toml bindings/sqlite-utils/sqlite_utils_sqlite_hello/version.py
+	python3 -m build bindings/sqlite-utils -o $(TARGET_WHEELS)
+
 node: VERSION bindings/node/platform-package.README.md.tmpl bindings/node/platform-package.package.json.tmpl bindings/node/sqlite-hello/package.json.tmpl scripts/node_generate_platform_packages.sh
 	scripts/node_generate_platform_packages.sh
 

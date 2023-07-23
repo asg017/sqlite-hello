@@ -25,8 +25,7 @@ jobs:
           path: dist/
       - uses: actions/setup-python@v3
       - run: pip install wheel
-      - run: make python
-      - run: make datasette
+      - run: make python datasette sqlite-utils
       - uses: actions/upload-artifact@v3
         with:
           name: sqlite-hello-linux-x86_64-wheels
@@ -51,8 +50,7 @@ jobs:
           path: dist/
       - uses: actions/setup-python@v3
       - run: pip install wheel
-      - run: make python
-      - run: make datasette
+      - run: make python datasette sqlite-utils
       - uses: actions/upload-artifact@v3
         with:
           name: sqlite-hello-macos-x86_64-wheels
@@ -77,8 +75,7 @@ jobs:
           path: dist/
       - uses: actions/setup-python@v3
       - run: pip install wheel
-      - run: make python
-      - run: make datasette
+      - run: make python datasette sqlite-utils
       - uses: actions/upload-artifact@v3
         with:
           name: sqlite-hello-macos-aarch64-wheels
@@ -103,8 +100,7 @@ jobs:
           path: dist/
       - uses: actions/setup-python@v3
       - run: pip install wheel
-      - run: make python
-      - run: make datasette
+      - run: make python datasette sqlite-utils
       - uses: actions/upload-artifact@v3
         with:
           name: sqlite-hello-windows-x86_64-wheels
