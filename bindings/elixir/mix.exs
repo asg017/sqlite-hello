@@ -41,7 +41,7 @@ defmodule SqliteHello.MixProject do
     ]
   end
 
-    defp description() do
+  defp description() do
     "sqlite-hello please."
   end
 
