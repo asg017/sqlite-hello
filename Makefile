@@ -136,11 +136,11 @@ datasette: $(TARGET_WHEELS) bindings/datasette/setup.py bindings/datasette/datas
 	rm $(TARGET_WHEELS)/datasette* || true
 	pip3 wheel bindings/datasette/ --no-deps -w $(TARGET_WHEELS)
 
-bindings/sqlite-utils/pyproject.toml: bindings/sqlite-utils/pyproject.toml.tmpl
+bindings/sqlite-utils/pyproject.toml: bindings/sqlite-utils/pyproject.toml.tmpl VERSION
 	VERSION=$(VERSION) envsubst < $< > $@
 	echo "✅ generated $@"
 
-bindings/sqlite-utils/sqlite_utils_sqlite_hello/version.py: bindings/sqlite-utils/sqlite_utils_sqlite_hello/version.py.tmpl
+bindings/sqlite-utils/sqlite_utils_sqlite_hello/version.py: bindings/sqlite-utils/sqlite_utils_sqlite_hello/version.py.tmpl VERSION
 	VERSION=$(VERSION) envsubst < $< > $@
 	echo "✅ generated $@"
 
@@ -159,6 +159,8 @@ version:
 	make bindings/ruby/lib/version.rb
 	make bindings/python/sqlite_hello/version.py
 	make bindings/datasette/datasette_sqlite_hello/version.py
+	make bindings/datasette/datasette_sqlite_hello/version.py
+	make bindings/sqlite-utils/pyproject.toml bindings/sqlite-utils/sqlite_utils_sqlite_hello/version.py
 	make rust
 	make node
 	make deno
