@@ -65,7 +65,7 @@ jobs:
           name: sqlite-hello-macos-aarch64-extension
           path: dist/*
   build-macos-aarch64-python:
-    runs-on: ubuntu-20.04
+    runs-on: macos-latest
     needs: [build-macos-aarch64-extension]
     steps:
       - uses: actions/checkout@v3
@@ -75,7 +75,7 @@ jobs:
           path: dist/
       - uses: actions/setup-python@v3
       - run: pip install wheel build
-      - run: make python datasette sqlite-utils
+      - run: make python datasette sqlite-utils IS_MACOS_ARM=1
       - uses: actions/upload-artifact@v3
         with:
           name: sqlite-hello-macos-aarch64-wheels
@@ -90,7 +90,7 @@ jobs:
           name: sqlite-hello-windows-x86_64-extension
           path: dist/*
   build-windows-x86_64-python:
-    runs-on: ubuntu-20.04
+    runs-on: windows-2019
     needs: [build-windows-x86_64-extension]
     steps:
       - uses: actions/checkout@v3

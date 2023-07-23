@@ -27,6 +27,13 @@ else
 PYTHON=python3
 endif
 
+
+ifdef IS_MACOS_ARM
+RENAME_WHEELS_ARGS=--is-macos-arm
+else
+RENAME_WHEELS_ARGS=
+endif
+
 prefix=dist
 $(prefix):
 	mkdir -p $(prefix)
@@ -145,7 +152,7 @@ bindings/sqlite-utils/sqlite_utils_sqlite_hello/version.py: bindings/sqlite-util
 	echo "✅ generated $@"
 
 sqlite-utils: $(TARGET_WHEELS) bindings/sqlite-utils/pyproject.toml bindings/sqlite-utils/sqlite_utils_sqlite_hello/version.py
-	python3 -m build bindings/sqlite-utils -o $(TARGET_WHEELS)
+	python3 -m build bindings/sqlite-utils -w -o $(TARGET_WHEELS)
 
 node: VERSION bindings/node/platform-package.README.md.tmpl bindings/node/platform-package.package.json.tmpl bindings/node/sqlite-hello/package.json.tmpl scripts/node_generate_platform_packages.sh
 	scripts/node_generate_platform_packages.sh
