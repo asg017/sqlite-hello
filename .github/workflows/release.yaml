@@ -24,7 +24,7 @@ jobs:
           name: sqlite-hello-linux-x86_64-extension
           path: dist/
       - uses: actions/setup-python@v3
-      - run: pip install wheel
+      - run: pip install wheel build
       - run: make python datasette sqlite-utils
       - uses: actions/upload-artifact@v3
         with:
@@ -49,7 +49,7 @@ jobs:
           name: sqlite-hello-macos-x86_64-extension
           path: dist/
       - uses: actions/setup-python@v3
-      - run: pip install wheel
+      - run: pip install wheel build
       - run: make python datasette sqlite-utils
       - uses: actions/upload-artifact@v3
         with:
@@ -74,7 +74,7 @@ jobs:
           name: sqlite-hello-macos-aarch64-extension
           path: dist/
       - uses: actions/setup-python@v3
-      - run: pip install wheel
+      - run: pip install wheel build
       - run: make python datasette sqlite-utils
       - uses: actions/upload-artifact@v3
         with:
@@ -99,7 +99,7 @@ jobs:
           name: sqlite-hello-windows-x86_64-extension
           path: dist/
       - uses: actions/setup-python@v3
-      - run: pip install wheel
+      - run: pip install wheel build
       - run: make python datasette sqlite-utils
       - uses: actions/upload-artifact@v3
         with:
