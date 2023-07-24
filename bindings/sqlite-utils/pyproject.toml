@@ -1,6 +1,6 @@
 [project]
 name = "sqlite-utils-sqlite-hello"
-version = "0.1.0-alpha.55"
+version = "0.1.0-alpha.56"
 description = "TODO"
 readme = "README.md"
 authors = [{name = "Alex Garcia"}]
@@ -18,4 +18,4 @@ Changelog = "https://github.com/asg017/sqlite-hello/releases"
 Issues = "https://github.com/asg017/sqlite-hello/issues"
 
 [project.entry-points.sqlite_utils]
-sqlite_hello = "sqlite_utils_sqlite_hello"
+sqlite_hello = "sqlite_hello.sqlite_utils_plugin"
