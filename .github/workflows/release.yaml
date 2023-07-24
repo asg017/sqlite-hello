@@ -25,10 +25,21 @@ jobs:
           path: dist/
       - uses: actions/setup-python@v3
       - run: pip install wheel build
-      - run: make python datasette sqlite-utils
+      - run: make python
       - uses: actions/upload-artifact@v3
         with:
           name: sqlite-hello-linux-x86_64-wheels
+          path: dist/wheels/*.whl
+  build-datasette-sqlite-utils:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+      - run: pip install wheel build
+      - run: make datasette sqlite-utils
+      - uses: actions/upload-artifact@v3
+        with:
+          name: sqlite-hello-datasette-sqlite-utils-wheels
           path: dist/wheels/*.whl
   build-macos-x86_64-extension:
     runs-on: macos-11
@@ -50,7 +61,7 @@ jobs:
           path: dist/
       - uses: actions/setup-python@v3
       - run: pip install wheel build
-      - run: make python datasette sqlite-utils
+      - run: make python
       - uses: actions/upload-artifact@v3
         with:
           name: sqlite-hello-macos-x86_64-wheels
@@ -75,7 +86,7 @@ jobs:
           path: dist/
       - uses: actions/setup-python@v3
       - run: pip install wheel build
-      - run: make python datasette sqlite-utils IS_MACOS_ARM=1
+      - run: make python IS_MACOS_ARM=1
       - uses: actions/upload-artifact@v3
         with:
           name: sqlite-hello-macos-aarch64-wheels
@@ -100,7 +111,7 @@ jobs:
           path: dist/
       - uses: actions/setup-python@v3
       - run: pip install wheel build
-      - run: make python datasette sqlite-utils
+      - run: make python
       - uses: actions/upload-artifact@v3
         with:
           name: sqlite-hello-windows-x86_64-wheels
@@ -318,6 +329,7 @@ jobs:
         build-macos-x86_64-python,
         build-macos-aarch64-python,
         build-windows-x86_64-python,
+        build-datasette-sqlite-utils,
       ]
     runs-on: ubuntu-latest
     steps:
@@ -336,6 +348,10 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: sqlite-hello-windows-x86_64-wheels
+          path: dist
+      - uses: actions/download-artifact@v3
+        with:
+          name: sqlite-hello-datasette-sqlite-utils-wheels
           path: dist
       - uses: pypa/gh-action-pypi-publish@release/v1
         with:
