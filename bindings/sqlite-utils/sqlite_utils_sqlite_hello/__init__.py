@@ -1,7 +1,7 @@
 from sqlite_utils import hookimpl
 import sqlite_hello
 
-from sqite_utils_sqlite_hello.version import __version_info__, __version__
+from sqlite_utils_sqlite_hello.version import __version_info__, __version__
 
 
 @hookimpl
