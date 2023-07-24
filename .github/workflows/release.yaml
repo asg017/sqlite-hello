@@ -40,7 +40,7 @@ jobs:
           name: sqlite-hello-macos-x86_64-extension
           path: dist/*
   build-macos-x86_64-python:
-    runs-on: ubuntu-20.04
+    runs-on: macos-11
     needs: [build-macos-x86_64-extension]
     steps:
       - uses: actions/checkout@v3
