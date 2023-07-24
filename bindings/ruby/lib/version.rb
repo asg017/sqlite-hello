@@ -1,4 +1,4 @@
 # automatically generated, do not edit by hand.
 module SqliteHello
-  VERSION = "0.1.0-alpha.60"
+  VERSION = "0.1.0-alpha.61"
 end
