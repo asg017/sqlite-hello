@@ -30,17 +30,6 @@ jobs:
         with:
           name: sqlite-hello-linux-x86_64-wheels
           path: dist/wheels/*.whl
-  build-datasette-sqlite-utils:
-    runs-on: ubuntu-20.04
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v3
-      - run: pip install wheel build
-      - run: make datasette sqlite-utils
-      - uses: actions/upload-artifact@v3
-        with:
-          name: sqlite-hello-datasette-sqlite-utils-wheels
-          path: dist/wheels/*.whl
   build-macos-x86_64-extension:
     runs-on: macos-11
     steps:
@@ -115,6 +104,17 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: sqlite-hello-windows-x86_64-wheels
+          path: dist/wheels/*.whl
+  build-datasette-sqlite-utils:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+      - run: pip install wheel build
+      - run: make datasette sqlite-utils
+      - uses: actions/upload-artifact@v3
+        with:
+          name: sqlite-hello-datasette-sqlite-utils-wheels
           path: dist/wheels/*.whl
   upload-deno:
     needs:
