@@ -160,7 +160,6 @@ node: VERSION bindings/node/platform-package.README.md.tmpl bindings/node/platfo
 deno: VERSION bindings/deno/deno.json.tmpl
 	scripts/deno_generate_package.sh
 
-rust: bindings/rust/Cargo.toml bindings/rust/Cargo.lock
 
 version:
 	make bindings/ruby/lib/version.rb
@@ -168,6 +167,6 @@ version:
 	make bindings/datasette/datasette_sqlite_hello/version.py
 	make bindings/datasette/datasette_sqlite_hello/version.py
 	make bindings/sqlite-utils/pyproject.toml bindings/sqlite-utils/sqlite_utils_sqlite_hello/version.py
-	make rust
+	make bindings/rust/Cargo.toml bindings/rust/Cargo.lock
 	make node
 	make deno
