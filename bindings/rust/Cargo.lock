@@ -571,7 +571,7 @@ checksum = "6980e8d7511241f8acf4aebddbb1ff938df5eebe98691418c4468d0b72a96a67"
 
 [[package]]
 name = "sqlite-hello"
-version = "0.1.0-alpha.72"
+version = "0.1.0-alpha.73"
 dependencies = [
  "anyhow",
  "flate2",
