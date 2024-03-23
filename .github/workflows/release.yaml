@@ -84,10 +84,19 @@ jobs:
             distx/install.sh
         env:
           GH_TOKEN: ${{ github.token }}
-      - run: npm publish --access public distx/npm/*
+      - run: |
+          npm publish --access public distx/npm/sqlite-hello-darwin-arm64.tar.gz
+          npm publish --access public distx/npm/sqlite-hello-darwin-x64.tar.gz
+          npm publish --access public distx/npm/sqlite-hello-linux-x64.tar.gz
+          npm publish --access public distx/npm/sqlite-hello-windows-x64.tar.gz
+          npm publish --access public distx/npm/sqlite-hello.tar.gz
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - run: gem push distx/gem/*
+      - run: |
+          gem push distx/gem/sqlite-hello-0.1.0.alpha.66-arm64-darwin.gem
+          gem push distx/gem/sqlite-hello-0.1.0.alpha.66-x86_64-darwin.gem
+          gem push distx/gem/sqlite-hello-0.1.0.alpha.66-x86_64-linux.gem
+          gem push distx/gem/sqlite-hello-0.1.0.alpha.66-x86_64-mingw32.gem
         env:
           GEM_HOST_API_KEY: ${{ secrets.GEM_HOST_API_KEY }}
       - uses: pypa/gh-action-pypi-publish@release/v1
