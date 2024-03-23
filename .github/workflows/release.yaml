@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: make loadable static
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: sqlite-hello-linux-x86_64-extension
           path: dist/*
@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: make loadable static
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: sqlite-hello-macos-x86_64-extension
           path: dist/*
@@ -28,7 +28,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: make loadable static CFLAGS="-target arm64-apple-macos11"
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: sqlite-hello-macos-aarch64-extension
           path: dist/*
@@ -37,7 +37,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: make loadable static
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: sqlite-hello-windows-x86_64-extension
           path: dist/*
