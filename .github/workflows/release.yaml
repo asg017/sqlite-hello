@@ -80,6 +80,8 @@ jobs:
             distx/checksums.txt \
             distx/sqlite-dist-manifest.json \
             distx/install.sh
+        env:
+          GH_TOKEN: ${{ github.token }}
       - run: npm publish --access public distx/npm/*
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
