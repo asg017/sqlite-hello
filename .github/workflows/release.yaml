@@ -70,10 +70,8 @@ jobs:
           path: dist/windows-x86_64
       - run: |
           curl -L https://github.com/asg017/sqlite-dist/releases/download/v0.0.1-alpha.1/sqlite-dist-x86_64-unknown-linux-gnu.tar.xz \
-            | tar -xOzf - sqlite-dist-x86_64-unknown-linux-gnu/sqlite-dist > sqlite-dist
-          chmod u+x sqlite-dist
-          echo $PWD/sqlite-dist >> $GITHUB_PATH
-      - run: sqlite-dist ./sqlite-dist.toml --input dist/ --output distx/
+            | tar xfJ - --strip-components 1
+      - run: ./sqlite-dist ./sqlite-dist.toml --input dist/ --output distx/
       - run: |
           gh release upload \
             distx/github_releases/* \
