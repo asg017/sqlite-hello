@@ -101,10 +101,9 @@ jobs:
         with:
           ruby-version: 3.2
       - run: |
-          gem push distx/gem/sqlite-hello-0.1.0.alpha.66-arm64-darwin.gem
-          gem push distx/gem/sqlite-hello-0.1.0.alpha.66-x86_64-darwin.gem
-          gem push distx/gem/sqlite-hello-0.1.0.alpha.66-x86_64-linux.gem
-          gem push distx/gem/sqlite-hello-0.1.0.alpha.66-x86_64-mingw32.gem
+          for file in distx/gem; do
+            gem push  "$file"
+          done
         env:
           GEM_HOST_API_KEY: ${{ secrets.GEM_HOST_API_KEY }}
       - uses: pypa/gh-action-pypi-publish@release/v1
