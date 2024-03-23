@@ -73,7 +73,7 @@ jobs:
             | tar xfJ - --strip-components 1
       - run: ./sqlite-dist ./sqlite-dist.toml --input dist/ --output distx/
       - run: |
-          gh release upload \
+          gh release upload ${{ github.ref_name }} \
             distx/github_releases/* \
             distx/spm/* \
             distx/sqlpkg/* \
