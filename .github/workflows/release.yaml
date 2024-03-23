@@ -50,6 +50,8 @@ jobs:
         build-macos-aarch64-extension,
         build-windows-x86_64-extension,
       ]
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v3
       - uses: actions/download-artifact@v4
