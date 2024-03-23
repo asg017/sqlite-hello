@@ -84,6 +84,11 @@ jobs:
             distx/install.sh
         env:
           GH_TOKEN: ${{ github.token }}
+      - name: Install node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+          registry-url: "https://registry.npmjs.org"
       - run: |
           npm publish --access public distx/npm/sqlite-hello-darwin-arm64.tar.gz
           npm publish --access public distx/npm/sqlite-hello-darwin-x64.tar.gz
@@ -92,6 +97,9 @@ jobs:
           npm publish --access public distx/npm/sqlite-hello.tar.gz
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.2
       - run: |
           gem push distx/gem/sqlite-hello-0.1.0.alpha.66-arm64-darwin.gem
           gem push distx/gem/sqlite-hello-0.1.0.alpha.66-x86_64-darwin.gem
