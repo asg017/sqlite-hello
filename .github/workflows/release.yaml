@@ -100,12 +100,12 @@ jobs:
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.2
-      - run: |
-          for file in distx/gem/*; do
-            gem push  "$file"
-          done
-        env:
-          GEM_HOST_API_KEY: ${{ secrets.GEM_HOST_API_KEY }}
+      #- run: |
+      #    for file in distx/gem/*; do
+      #      gem push  "$file"
+      #    done
+      #  env:
+      #    GEM_HOST_API_KEY: ${{ secrets.GEM_HOST_API_KEY }}
       - uses: pypa/gh-action-pypi-publish@release/v1
         with:
           password: ${{ secrets.PYPI_API_TOKEN }}
