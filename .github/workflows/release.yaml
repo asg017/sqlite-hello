@@ -101,7 +101,7 @@ jobs:
         with:
           ruby-version: 3.2
       - run: |
-          for file in distx/gem; do
+          for file in distx/gem/*; do
             gem push  "$file"
           done
         env:
