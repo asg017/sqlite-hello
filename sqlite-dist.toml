@@ -1,6 +1,6 @@
 [package]
 name = "sqlite-hello"
-version = "0.1.0-alpha.73"
+version = "0.1.0-alpha.74"
 license = "MIT OR Apache"
 homepage = "https://alexgarcia.xyz/sqlite-hello"
 repo = "https://github.com/asg017/sqlite-hello"
