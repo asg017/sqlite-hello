@@ -71,7 +71,7 @@ jobs:
           name: sqlite-hello-windows-x86_64-extension
           path: dist/windows-x86_64
       - run: |
-          curl -L https://github.com/asg017/sqlite-dist/releases/download/v0.0.1-alpha.2/sqlite-dist-x86_64-unknown-linux-gnu.tar.xz \
+          curl -L https://github.com/asg017/sqlite-dist/releases/download/v0.0.1-alpha.3/sqlite-dist-x86_64-unknown-linux-gnu.tar.xz \
             | tar xfJ - --strip-components 1
       - run: ./sqlite-dist ./sqlite-dist.toml --input dist/ --output distx/
       - run: |
