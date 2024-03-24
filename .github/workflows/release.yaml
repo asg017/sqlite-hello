@@ -106,21 +106,18 @@ jobs:
       #    done
       #  env:
       #    GEM_HOST_API_KEY: ${{ secrets.GEM_HOST_API_KEY }}
-      - uses: pypa/gh-action-pypi-publish@release/v1
+      - uses: actions/setup-python@v5
         with:
-          password: ${{ secrets.PYPI_API_TOKEN }}
-          skip-existing: true
-          packages-dir: distx/pip
-      - uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          password: ${{ secrets.PYPI_API_TOKEN }}
-          skip-existing: true
-          packages-dir: distx/datasette
-      - uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          password: ${{ secrets.PYPI_API_TOKEN }}
-          skip-existing: true
-          packages-dir: distx/sqlite_utils
+          python-version: "3.12"
+          cache: "pip"
+      - run: pip install twine
+      - run: |
+          twine upload distx/pip
+          twine upload distx/datasette
+          twine upload distx/sqlite_utils
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
 
   #upload-hex:
   #  runs-on: ubuntu-latest
