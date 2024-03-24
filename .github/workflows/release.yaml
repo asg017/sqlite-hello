@@ -111,9 +111,9 @@ jobs:
           python-version: "3.12"
       - run: pip install twine
       - run: |
-          twine upload distx/pip
-          twine upload distx/datasette
-          twine upload distx/sqlite_utils
+          twine upload distx/pip/*
+          twine upload distx/datasette/*
+          twine upload distx/sqlite_utils/*
         env:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
