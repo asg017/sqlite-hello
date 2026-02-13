@@ -41,7 +41,7 @@ jobs:
         with:
           path: dist/
       - uses: asg017/setup-sqlite-dist@73e37b2ffb0b51e64a64eb035da38c958b9ff6c6
-      - run: sqlite-dist build 
+      - run: sqlite-dist build --set-version $(cat VERSION)
       - run: |
           gh release upload ${{ github.ref_name }} \
             .sqlite-dist/github_releases/* \
